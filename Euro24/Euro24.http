@@ -1,0 +1,6 @@
+@Euro24_HostAddress = http://localhost:5232
+
+GET {{Euro24_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
