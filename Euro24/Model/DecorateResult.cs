@@ -28,6 +28,11 @@ public class DecorateResult
         }
 
         return decoratedList;
-    } 
+    }
+
+    public static Tuple<DecorateResult, List<ClientSession.Game>> DecorateResultAndGames(string groupName,int round,Dictionary<string,List<TeamCharacteristics>> groups,List<ClientSession.Game> games)
+    {
+        return new Tuple<DecorateResult,List<ClientSession.Game>>(new DecorateResult(groupName, round, groups), games);
+    }
     
 }
