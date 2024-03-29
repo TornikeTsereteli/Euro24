@@ -11,7 +11,16 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IPredictionMap, PredictMap>();
 builder.Services.AddSingleton<IClientSessionManager, ClientSessionManager>();
 builder.Services.AddSingleton<IGenerateScore, GenerateScore>();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactAppPolicy",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000") // Update with your React app's URL
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +36,7 @@ app.UseHttpsRedirection();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.MapControllers();
+app.UseCors("ReactAppPolicy");
 
 app.Run();
 
