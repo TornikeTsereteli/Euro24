@@ -45,7 +45,9 @@ public class GenerateScore:IGenerateScore
                 team1.Rating -= 10;
             }
         }
-        
+
+        team1.Round += 1;
+        team2.Round += 1;
 
         return (team1Score, team2Score);
 

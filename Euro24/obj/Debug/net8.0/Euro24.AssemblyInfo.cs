@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Euro24")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+56945ac45235c474090cabe3d10473c8d398e43a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Euro24")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Euro24")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
