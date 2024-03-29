@@ -21,9 +21,9 @@ public class PredictionController
     
     [HttpGet("/GetCountries")]
     
-    public Dictionary<string,TeamCharacteristics> GetCountries(string sessionId)
+    public List<TeamCharacteristics> GetCountries(string sessionId)
     {
-        return _sessionManager.GetClientSession(sessionId).TeamCharacteristics;
+        return _sessionManager.GetClientSession(sessionId).TeamCharacteristics.Values.ToList();
     }
     [HttpPost("/AddSession")]
     public void AddSession(string sessionId)
@@ -41,6 +41,14 @@ public class PredictionController
     {
         return _sessionManager.GetClientSession(sessionId).GetTeamsByGroup();
     }
+    
+    [HttpGet("/GetGroupsUpdated")]
+    public List<DecorateResult> GetGroupsUpdated(string sessionId)
+    {
+        Dictionary<string,List<TeamCharacteristics>> groups = _sessionManager.GetClientSession(sessionId).GetTeamsByGroup();
+        return DecorateResult.GetDecoratedResult(groups);
+
+    }
     [HttpGet("/GetRoundGamesOnConcreteGroup")]
     public List<ClientSession.Game> GetRoundGamesOnConcreteGroup(string sessionId, string groupName, int round)
     {
@@ -48,3 +56,4 @@ public class PredictionController
     }
     
 }
+

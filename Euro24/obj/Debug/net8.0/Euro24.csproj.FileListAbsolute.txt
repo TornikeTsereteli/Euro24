@@ -31,3 +31,4 @@ C:\Users\WERO\RiderProjects\Euro24\Euro24\obj\Debug\net8.0\refint\Euro24.dll
 C:\Users\WERO\RiderProjects\Euro24\Euro24\obj\Debug\net8.0\Euro24.pdb
 C:\Users\WERO\RiderProjects\Euro24\Euro24\obj\Debug\net8.0\Euro24.genruntimeconfig.cache
 C:\Users\WERO\RiderProjects\Euro24\Euro24\obj\Debug\net8.0\ref\Euro24.dll
+C:\Users\WERO\RiderProjects\Euro24\Euro24\obj\Debug\net8.0\Euro24.sourcelink.json
