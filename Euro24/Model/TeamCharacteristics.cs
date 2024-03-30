@@ -16,6 +16,7 @@ public class TeamCharacteristics
     public int _scoredGoals;
     public int _conceadedGoals;
     public int Round { get; set;}
+    public int Point => GetPoints();
     
     public int GetPoints()
     {

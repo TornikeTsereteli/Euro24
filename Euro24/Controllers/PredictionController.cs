@@ -49,6 +49,38 @@ public class PredictionController
         return DecorateResult.GetDecoratedResult(groups);
 
     }
+
+    [HttpGet("/test1")]
+    public List<Tuple<DecorateResult,List<ClientSession.Game>>> GetDecoratedResultAndGamesResult(string sessionId)
+    {
+        List<Tuple<DecorateResult, List<ClientSession.Game>>> result = new List<Tuple<DecorateResult, List<ClientSession.Game>>>();
+        
+        string[] groupNames = { "A", "B", "C", "D", "E", "F"};
+        int[] rounds = { 1, 2, 3 };
+        ClientSession clientSession = _sessionManager.GetClientSession(sessionId);
+        Dictionary<string,List<TeamCharacteristics>> groups = clientSession.GetTeamsByGroup();
+
+        foreach (var groupName in groupNames)
+        {
+            List<ClientSession.Game> games = new List<ClientSession.Game>();
+            foreach (var round in rounds)
+            {
+                List<ClientSession.Game> games1 = clientSession.GroupGames.GetValueOrDefault(new Tuple<string, int>(groupName, round),new List<ClientSession.Game>());
+                games.AddRange(games1);
+                DecorateResult decorateResult = DecorateResult.GetInstance(groupName, round, groups);
+                result.Add(new Tuple<DecorateResult, List<ClientSession.Game>>(decorateResult, games));
+                
+
+            }
+            
+        }
+
+        return result;
+
+
+    } 
+    
+    
     [HttpGet("/GetRoundGamesOnConcreteGroup")]
     public Tuple<DecorateResult,List<ClientSession.Game>> GetRoundGamesOnConcreteGroup(string sessionId, string groupName, int round)
     {
