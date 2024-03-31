@@ -12,8 +12,8 @@ public class ClientSessionManager:IClientSessionManager
     }
 
     public bool AddClient(string sessionId, ClientSession clientSession)
-    { 
-        map.Add(sessionId,clientSession);
+    {
+        if (!map.TryAdd(sessionId, clientSession)) return false;
         return true;
     }
 

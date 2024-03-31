@@ -25,24 +25,31 @@ public class PredictionController
     {
         return _sessionManager.GetClientSession(sessionId).TeamCharacteristics.Values.ToList();
     }
-    [HttpPost("/AddSession")]
-    public void AddSession(string sessionId)
+    [HttpPost("/RegisterSession")]
+    public string RegisterSession()
     {
-        _sessionManager.AddClient(sessionId, new ClientSession(_generateScore));
+        string token = TokenGenerator.GenerateRandomToken(20);
+        int i = 0;
+        while (!_sessionManager.AddClient(token,new ClientSession(_generateScore)))
+        {
+            token = TokenGenerator.GenerateRandomToken(20+i++);
+        }
+        return token;
     }
     
-    [HttpPost("/UpdateRating")]
-    public void UpdateRating(string sessionId,string countryName, int rating)
-    {
-        _sessionManager.GetClientSession(sessionId).TeamCharacteristics[countryName].Rating = rating;
-    }
+    
+    // [HttpPost("/UpdateRating")]
+    // public void UpdateRating(string sessionId,string countryName, int rating)
+    // {
+    //     _sessionManager.GetClientSession(sessionId).TeamCharacteristics[countryName].Rating = rating;
+    // }
+    // [HttpGet("/GetGroups")]
+    // public Dictionary<string, List<TeamCharacteristics>> GetGroups(string sessionId)
+    // {
+    //     return _sessionManager.GetClientSession(sessionId).GetTeamsByGroup();
+    // }
+    
     [HttpGet("/GetGroups")]
-    public Dictionary<string, List<TeamCharacteristics>> GetGroups(string sessionId)
-    {
-        return _sessionManager.GetClientSession(sessionId).GetTeamsByGroup();
-    }
-    
-    [HttpGet("/GetGroupsUpdated")]
     public List<DecorateResult> GetGroupsUpdated(string sessionId)
     {
         Dictionary<string,List<TeamCharacteristics>> groups = _sessionManager.GetClientSession(sessionId).GetTeamsByGroup();
@@ -50,34 +57,11 @@ public class PredictionController
 
     }
 
-    [HttpGet("/test1")]
-    public List<Tuple<DecorateResult,List<ClientSession.Game>>> GetDecoratedResultAndGamesResult(string sessionId)
+    
+    [HttpGet("/GetDecoratedResultAndGamesResults")]
+    public List<Tuple<DecorateResult,List<ClientSession.Game>>> GetDecoratedResultAndGamesResults(string sessionId)
     {
-        List<Tuple<DecorateResult, List<ClientSession.Game>>> result = new List<Tuple<DecorateResult, List<ClientSession.Game>>>();
-        
-        string[] groupNames = { "A", "B", "C", "D", "E", "F"};
-        int[] rounds = { 1, 2, 3 };
-        ClientSession clientSession = _sessionManager.GetClientSession(sessionId);
-        Dictionary<string,List<TeamCharacteristics>> groups = clientSession.GetTeamsByGroup();
-
-        foreach (var groupName in groupNames)
-        {
-            List<ClientSession.Game> games = new List<ClientSession.Game>();
-            foreach (var round in rounds)
-            {
-                List<ClientSession.Game> games1 = clientSession.GroupGames.GetValueOrDefault(new Tuple<string, int>(groupName, round),new List<ClientSession.Game>());
-                games.AddRange(games1);
-                DecorateResult decorateResult = DecorateResult.GetInstance(groupName, round, groups);
-                result.Add(new Tuple<DecorateResult, List<ClientSession.Game>>(decorateResult, games));
-                
-
-            }
-            
-        }
-
-        return result;
-
-
+        return DecorateResult.GetDecoratedResultAndGamesResult(_sessionManager.GetClientSession(sessionId));
     } 
     
     
@@ -88,12 +72,7 @@ public class PredictionController
         Dictionary<string,List<TeamCharacteristics>> groups = _sessionManager.GetClientSession(sessionId).GetTeamsByGroup();
         return DecorateResult.DecorateResultAndGames(groupName, round, groups,games);
     }
-
-    [HttpGet("/testTuple")]
-    public (int, int) TestTuple()
-    {
-        return (1,2);
-    }
+    
     
 }
 
