@@ -49,6 +49,7 @@ public class PredictionController
     //     return _sessionManager.GetClientSession(sessionId).GetTeamsByGroup();
     // }
     
+    
     [HttpGet("/GetGroups")]
     public List<DecorateResult> GetGroupsUpdated(string sessionId)
     {
